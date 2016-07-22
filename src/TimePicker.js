@@ -291,3 +291,6 @@ TimePicker.propTypes = {
         PropTypes.string
     ])
 };
+
+TimePicker.childContextTypes = InputComponent.childContextTypes;
+TimePicker.contextTypes = InputComponent.contextTypes;
