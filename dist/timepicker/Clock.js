@@ -115,6 +115,8 @@
                 y: pageY - mainPosition.top - radius
             };
 
+            console.log(pageX, pageY, mainPosition, radius);
+
             var deg = void 0;
 
             if (pos.y === 0) {
@@ -202,7 +204,7 @@
                 _react2['default'].createElement(
                     'div',
                     {
-                        className: cx().part('main').build(),
+                        className: cx.getPartClassName('main'),
                         ref: 'main',
                         onMouseDown: this.onMouseDown },
                     _react2['default'].createElement(_ClockHand2['default'], {
@@ -227,7 +229,6 @@
         mode: _react.PropTypes.oneOf(['hour', 'minute']),
         begin: _react.PropTypes.instanceOf(Date),
         end: _react.PropTypes.instanceOf(Date),
-        format: _react.PropTypes.string,
         onChange: _react.PropTypes.func.isRequired
     };
 });

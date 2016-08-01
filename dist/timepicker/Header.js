@@ -17,7 +17,6 @@
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    exports.default = TimePickerHeader;
 
     var _react2 = babelHelpers.interopRequireDefault(_react);
 
@@ -30,76 +29,93 @@
 
     var cx = (0, _cxBuilder.create)('TimePickerHeader');
 
-    function TimePickerHeader(props) {
-        var time = props.time;
-        var mode = props.mode;
+    var TimePickerHeader = function (_Component) {
+        babelHelpers.inherits(TimePickerHeader, _Component);
 
-        var timeMoment = (0, _moment2['default'])(time);
-
-        var selected = mode === 'hour';
-
-        var hour = (0, _moment2['default'])(time).hour();
-        var isAfternoon = false;
-
-        if (hour > 12 || hour === 0) {
-            hour = hour === 0 ? 12 : hour - 12;
-            isAfternoon = true;
+        function TimePickerHeader() {
+            babelHelpers.classCallCheck(this, TimePickerHeader);
+            return babelHelpers.possibleConstructorReturn(this, _Component.apply(this, arguments));
         }
 
-        return _react2['default'].createElement(
-            'div',
-            { className: cx(props).build() },
-            _react2['default'].createElement(
+        TimePickerHeader.prototype.render = function render() {
+
+            var props = this.props;
+
+            var time = props.time;
+            var mode = props.mode;
+
+            var timeMoment = (0, _moment2['default'])(time);
+
+            var selected = mode === 'hour';
+
+            var hour = (0, _moment2['default'])(time).hour();
+            var isAfternoon = false;
+
+            if (hour > 12 || hour === 0) {
+                hour = hour === 0 ? 12 : hour - 12;
+                isAfternoon = true;
+            }
+
+            return _react2['default'].createElement(
                 'div',
-                { className: cx().part('time').build() },
+                { className: cx(props).build() },
                 _react2['default'].createElement(
-                    'span',
-                    {
-                        onClick: selected && props.onModeChange ? null : function () {
-                            props.onModeChange({ mode: 'hour' });
-                        },
-                        className: cx().part('time-hour').addStates({ selected: selected }).build() },
-                    (0, _moment2['default'])(hour + '', 'h').format('hh')
+                    'div',
+                    { className: cx.getPartClassName('time') },
+                    _react2['default'].createElement(
+                        'span',
+                        {
+                            onClick: selected && props.onModeChange ? null : function () {
+                                props.onModeChange({ mode: 'hour' });
+                            },
+                            className: cx().part('time-hour').addStates({ selected: selected }).build() },
+                        (0, _moment2['default'])(hour + '', 'h').format('hh')
+                    ),
+                    _react2['default'].createElement(
+                        'span',
+                        null,
+                        ':'
+                    ),
+                    _react2['default'].createElement(
+                        'span',
+                        {
+                            onClick: !selected && props.onModeChange ? null : function () {
+                                props.onModeChange({ mode: 'minute' });
+                            },
+                            className: cx().part('time-minute').addStates({ selected: !selected }).build() },
+                        timeMoment.format('mm')
+                    )
                 ),
                 _react2['default'].createElement(
-                    'span',
-                    null,
-                    ':'
-                ),
-                _react2['default'].createElement(
-                    'span',
-                    {
-                        onClick: !selected && props.onModeChange ? null : function () {
-                            props.onModeChange({ mode: 'minute' });
-                        },
-                        className: cx().part('time-minute').addStates({ selected: !selected }).build() },
-                    timeMoment.format('mm')
+                    'div',
+                    { className: cx.getPartClassName('apm') },
+                    _react2['default'].createElement(
+                        'span',
+                        {
+                            onClick: !isAfternoon && props.onChange ? null : function () {
+                                props.onChange({ time: (0, _moment2['default'])(time).subtract(12, 'h').toDate(), isModeChange: false });
+                            },
+                            className: cx().part('apm-am').addStates({ selected: !isAfternoon }).build() },
+                        'AM'
+                    ),
+                    _react2['default'].createElement(
+                        'span',
+                        {
+                            onClick: isAfternoon && props.onChange ? null : function () {
+                                props.onChange({ time: (0, _moment2['default'])(time).add(12, 'h').toDate(), isModeChange: false });
+                            },
+                            className: cx().part('apm-pm').addStates({ selected: isAfternoon }).build() },
+                        'PM'
+                    )
                 )
-            ),
-            _react2['default'].createElement(
-                'div',
-                { className: cx().part('apm').build() },
-                _react2['default'].createElement(
-                    'span',
-                    {
-                        onClick: !isAfternoon && props.onChange ? null : function () {
-                            props.onChange({ time: (0, _moment2['default'])(time).subtract(12, 'h').toDate(), isModeChange: false });
-                        },
-                        className: cx().part('apm-am').addStates({ selected: !isAfternoon }).build() },
-                    'AM'
-                ),
-                _react2['default'].createElement(
-                    'span',
-                    {
-                        onClick: isAfternoon && props.onChange ? null : function () {
-                            props.onChange({ time: (0, _moment2['default'])(time).add(12, 'h').toDate(), isModeChange: false });
-                        },
-                        className: cx().part('apm-pm').addStates({ selected: isAfternoon }).build() },
-                    'PM'
-                )
-            )
-        );
-    }
+            );
+        };
+
+        return TimePickerHeader;
+    }(_react.Component);
+
+    exports['default'] = TimePickerHeader;
+
 
     TimePickerHeader.displayName = 'TimePickerHeader';
 

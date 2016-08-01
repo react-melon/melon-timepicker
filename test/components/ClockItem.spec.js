@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import monent from 'moment';
+import moment from 'moment';
 import {createRenderer} from 'react-addons-test-utils';
 
 import ClockItem from '../../src/timepicker/ClockItem';
@@ -20,7 +20,7 @@ describe('ClockItem', () => {
     it('mode hour', () => {
         renderer.render(
             <ClockItem
-                time={monent('10:20:00', 'HH:mm:ss').toDate()}
+                time={moment('10:20:00', 'HH:mm:ss').toDate()}
                 mode="hour" />
         );
         let actualElement = renderer.getRenderOutput();
@@ -42,7 +42,7 @@ describe('ClockItem', () => {
     it('mode minute', () => {
         renderer.render(
             <ClockItem
-                time={monent('10:20:00', 'HH:mm:ss').toDate()}
+                time={moment('10:20:00', 'HH:mm:ss').toDate()}
                 mode="minute" />
         );
         let actualElement = renderer.getRenderOutput();

@@ -1,3 +1,40 @@
 # melon-timepicker
 
-基于 react 和 material design 的时间选择器组件
+[![Coverage Status](https://coveralls.io/repos/github/react-melon/melon-timepicker/badge.svg?branch=master)](https://coveralls.io/github/react-melon/melon-timepicker?branch=master)
+[![Version](https://badge.fury.io/js/melon-timepicker.svg)](https://www.npmjs.com/package/melon-timepicker)
+[![Build](https://travis-ci.org/react-melon/melon-timepicker.svg?style=flat-square)](https://travis-ci.org/react-melon/melon-timepicker)
+
+TimePicker Components in [React Melon Family](http://react-melon.github.io/melon/)
+
+## Install
+
+### npm
+
+[![melon-timepicker](https://nodei.co/npm/melon-timepicker.png)](https://npmjs.org/package/melon-timepicker)
+
+### bower
+
+```
+bower install melon-timepicker
+```
+
+## Usage
+
+```js
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import TimePicker from 'melon-timepicker';
+
+ReactDOM.render(<TimePicker />, container);
+```
+
+## Examples
+
+[demo](http://react-melon.github.io/melon/#/components?name=TimePicker)
+
+## Test Case
+
+```
+npm test
+```

@@ -65,7 +65,7 @@
             return _react2['default'].createElement(
                 'div',
                 { className: className, style: this.getStyle() },
-                _react2['default'].createElement('div', { className: cx().part('end').build() })
+                _react2['default'].createElement('div', { className: cx.getPartClassName('end') })
             );
         };
 
@@ -79,7 +79,6 @@
 
     TimePickerClockHand.propTypes = {
         time: _react.PropTypes.instanceOf(Date).isRequired,
-        mode: _react.PropTypes.oneOf(['hour', 'minute']).isRequired,
-        onChange: _react.PropTypes.func
+        mode: _react.PropTypes.oneOf(['hour', 'minute']).isRequired
     };
 });

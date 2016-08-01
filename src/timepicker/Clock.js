@@ -101,6 +101,8 @@ export default class TimePickerClock extends Component {
             y: pageY - mainPosition.top - radius
         };
 
+        console.log(pageX, pageY, mainPosition, radius);
+
         let deg;
 
         if (pos.y === 0) {
@@ -199,7 +201,7 @@ export default class TimePickerClock extends Component {
         return (
             <div className={className}>
                 <div
-                    className={cx().part('main').build()}
+                    className={cx.getPartClassName('main')}
                     ref="main"
                     onMouseDown={this.onMouseDown}>
                     <ClockHand
@@ -222,6 +224,5 @@ TimePickerClock.propTypes = {
     mode: PropTypes.oneOf(['hour', 'minute']),
     begin: PropTypes.instanceOf(Date),
     end: PropTypes.instanceOf(Date),
-    format: PropTypes.string,
     onChange: PropTypes.func.isRequired
 };

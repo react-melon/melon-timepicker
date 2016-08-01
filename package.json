@@ -1,6 +1,6 @@
 {
   "name": "melon-timepicker",
-  "version": "0.3.0",
+  "version": "0.3.3",
   "description": "ui components for react",
   "main": "TimePicker.js",
   "directories": {
@@ -32,6 +32,7 @@
     "karma-jasmine": "^1.0.2",
     "karma-mocha-reporter": "^2.0.4",
     "karma-sauce-launcher": "^1.0.0",
+    "karma-stylus-preprocessor": "0.0.2",
     "lodash": "^4.13.1",
     "nib": "^1.1.0",
     "react-addons-test-utils": "^0.14.8",

@@ -287,4 +287,7 @@
         end: _react.PropTypes.oneOfType([_react.PropTypes.object, _react.PropTypes.string]),
         begin: _react.PropTypes.oneOfType([_react.PropTypes.object, _react.PropTypes.string])
     });
+
+    TimePicker.childContextTypes = _InputComponent3['default'].childContextTypes;
+    TimePicker.contextTypes = _InputComponent3['default'].contextTypes;
 });

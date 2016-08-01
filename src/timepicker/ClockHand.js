@@ -48,7 +48,7 @@ export default class TimePickerClockHand extends Component {
 
         return (
             <div className={className} style={this.getStyle()}>
-                <div className={cx().part('end').build()} />
+                <div className={cx.getPartClassName('end')} />
             </div>
         );
     }
@@ -59,6 +59,5 @@ TimePickerClockHand.displayName = 'TimePickerClockHand';
 
 TimePickerClockHand.propTypes = {
     time: PropTypes.instanceOf(Date).isRequired,
-    mode: PropTypes.oneOf(['hour', 'minute']).isRequired,
-    onChange: PropTypes.func
+    mode: PropTypes.oneOf(['hour', 'minute']).isRequired
 };
