@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-    - 4
+    - 6
 
 # chrome
 before_install:
@@ -10,10 +10,8 @@ before_install:
 
 install:
 |
-    npm install -g npm@latest bower
-    npm --version
+    npm install fecs -g
     npm install --registry http://registry.npmjs.org
-    bower i
 script:
     - npm run test-ci
 after_script:
