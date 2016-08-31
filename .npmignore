@@ -6,6 +6,8 @@ src
 test
 npm-debug.log
 output
-coverage
 *.orig
 .bower.json
+gulpfile.js
+example
+tools

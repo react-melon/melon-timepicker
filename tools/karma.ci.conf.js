@@ -3,11 +3,8 @@
  * @author cxtom <cxtom2008@gmail.com>
  */
 
-/* eslint-disable no-console */
-
-var _ = require('lodash');
-
-var karmaConfig = require('./karma/config');
+const _ = require('lodash');
+const karmaConfig = require('./karma/config');
 
 module.exports = function (config) {
 

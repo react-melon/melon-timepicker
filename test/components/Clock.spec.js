@@ -12,7 +12,6 @@ import TestUtils, {Simulate} from 'react-addons-test-utils';
 
 import Clock from '../../src/timepicker/Clock';
 import ClockItem from '../../src/timepicker/ClockItem';
-import then from '../then';
 
 import domUtil from 'melon/common/util/dom';
 
