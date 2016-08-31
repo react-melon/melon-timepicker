@@ -1,12 +1,7 @@
-{
-    "eslint": {
-        "rules": {
-            "fecs-jsx-var": [
-                2,
-                {
-                    "pragma": "React"
-                }
-            ]
-        }
-    }
-}
+files:
+    - src
+eslint:
+    rules:
+        fecs-valid-class-jsdoc:
+            - off
+            - always

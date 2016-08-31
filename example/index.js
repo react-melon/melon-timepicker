@@ -4,9 +4,12 @@
  */
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import Title from 'melon/Title';
 import TimePicker from '../src/TimePicker';
+
+import './index.styl';
 
 class View extends React.Component {
 
@@ -69,4 +72,7 @@ class View extends React.Component {
 }
 
 
-module.exports = View;
+ReactDOM.render(
+    <View />,
+    document.getElementById('app')
+);

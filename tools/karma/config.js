@@ -7,15 +7,7 @@ var path = require('path');
 
 var NODE_MODULES_FILES = '**/node_modules/**';
 
-var babelOpts = {
-    presets: ['es2015', 'es2015-loose', 'react', 'stage-1'],
-    plugins: [
-        'transform-es3-property-literals',
-        'transform-es3-member-expression-literals'
-    ],
-    ignore: [NODE_MODULES_FILES]
-};
-
+var babelOpts = require('../../package.json').babel;
 
 module.exports = {
 
@@ -26,7 +18,7 @@ module.exports = {
     files: [
         './node_modules/jasmine-expect-jsx/dist/jasmine-expect-jsx.js', // expect-jsx
         './test/**/*.spec.js',
-        './src/css/TimePicker.styl'
+        './src/index.styl'
     ],
 
     browsers: ['Chrome'],
@@ -35,7 +27,7 @@ module.exports = {
         './test/**/*.spec.js': ['browserify'],
         './test/*.js': ['browserify'],
         './src/*.js': ['browserify', 'coverage'],
-        './src/css/TimePicker.styl': ['stylus']
+        './src/index.styl': ['stylus']
     },
 
     browserify: {
@@ -62,7 +54,7 @@ module.exports = {
             'use': require('nib')(),
             'resolve url': true,
             'resolve url nocheck': true,
-            'paths': [path.join(__dirname, '../../dep')]
+            'paths': [path.join(__dirname, '../../node_modules')]
         }
     },
 
