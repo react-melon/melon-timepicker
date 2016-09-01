@@ -101,8 +101,6 @@ export default class TimePickerClock extends Component {
             y: pageY - mainPosition.top - radius
         };
 
-        console.log(pageX, pageY, mainPosition, radius);
-
         let deg;
 
         if (pos.y === 0) {

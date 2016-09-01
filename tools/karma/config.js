@@ -3,17 +3,16 @@
  * @author cxtom <cxtom2008@gmail.com>
  */
 
-var path = require('path');
+const path = require('path');
+const babelOptions = require('../../package.json').babel;
 
-var NODE_MODULES_FILES = '**/node_modules/**';
-
-var babelOpts = require('../../package.json').babel;
+babelOptions.plugins.push('istanbul');
 
 module.exports = {
 
     basePath: path.join(__dirname, '../../'),
 
-    frameworks: ['browserify', 'jasmine'],
+    frameworks: ['jasmine'],
 
     files: [
         './node_modules/jasmine-expect-jsx/dist/jasmine-expect-jsx.js', // expect-jsx
@@ -24,42 +23,44 @@ module.exports = {
     browsers: ['Chrome'],
 
     preprocessors: {
-        './test/**/*.spec.js': ['browserify'],
-        './test/*.js': ['browserify'],
-        './src/*.js': ['browserify', 'coverage'],
-        './src/index.styl': ['stylus']
+        './test/**/*.spec.js': ['webpack'],
+        './src/*.js': ['coverage'],
+        './src/index.styl': ['webpack']
     },
 
-    browserify: {
-        debug: true,
-        paths: ['./src/*.js', './test/**/**.spec.js'],
-
-        transform: [
-
-            ['babelify', babelOpts],
-
-            ['browserify-istanbul', {
-                instrumenter: require('babel-istanbul'),
-                instrumenterConfig: {
-                    babel: babelOpts
+    webpack: {
+        module: {
+            preLoaders: [
+                {
+                    test: /\.js$/,
+                    loader: 'babel',
+                    exclude: /node_modules/,
+                    query: babelOptions
                 },
-                ignore: [NODE_MODULES_FILES]
-            }]
-        ],
-        extensions: ['.js']
-    },
-
-    stylusPreprocessor: {
-        options: {
-            'use': require('nib')(),
-            'resolve url': true,
-            'resolve url nocheck': true,
-            'paths': [path.join(__dirname, '../../node_modules')]
+                // 处理 stylus
+                {
+                    test: /\.styl$/,
+                    loader: 'style!css!stylus?paths=node_modules&resolve url'
+                },
+                // 处理 iconfont
+                {
+                    test: /\.(svg|eot|ttf|woff)($|\?)/,
+                    loader: 'file'
+                }
+            ]
+        },
+        // stylus loader 中引入 nib 库支持
+        stylus: {
+            use: [require('nib')()]
         }
     },
 
-    // logLevel: config.LOG_DEBUG,
+    webpackMiddleware: {
+        stats: 'errors-only'
+    },
+
     reporters: ['coverage', 'mocha'],
+
     coverageReporter: {
         dir: path.join(__dirname, '../../coverage'),
         reporters: [
