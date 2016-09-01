@@ -1,7 +1,6 @@
 node_modules
 dep
 coverage
-.edpproj
 src
 test
 npm-debug.log
@@ -11,3 +10,7 @@ output
 gulpfile.js
 example
 tools
+.travis.yml
+.coveralls.yml
+bower.json
+.fecsrc
