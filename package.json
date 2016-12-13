@@ -1,6 +1,6 @@
 {
   "name": "melon-timepicker",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "ui components for react",
   "main": "lib/TimePicker.js",
   "directories": {
@@ -12,7 +12,7 @@
     "babel-core": "^6.14.0",
     "babel-loader": "^6.2.5",
     "babel-plugin-external-helpers": "^6.8.0",
-    "babel-plugin-external-helpers-insert-require": "^1.0.1",
+    "babel-plugin-external-helpers-insert-require": "^1.0.2",
     "babel-plugin-istanbul": "^2.0.0",
     "babel-plugin-transform-es2015-modules-umd": "^6.12.0",
     "babel-plugin-transform-es3-member-expression-literals": "^6.8.0",
@@ -62,7 +62,8 @@
     "url": "git+https://github.com/react-melon/melon-timepicker.git"
   },
   "peerDependencies": {
-    "react": ">=0.14"
+    "react": "^15.4.1||^0.14.8",
+    "react-dom": "^15.4.1||^0.14.8"
   },
   "keywords": [
     "react",
@@ -84,8 +85,9 @@
     "dependencies": {}
   },
   "dependencies": {
-    "melon": "^0.3.2",
-    "melon-core": "^0.3.1",
+    "lodash": "^4.17.2",
+    "melon": "^0.4.0",
+    "melon-core": "^0.4.1",
     "moment": "^2.13.0"
   },
   "babel": {

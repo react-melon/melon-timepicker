@@ -16,6 +16,8 @@ import Icon  from 'melon/Icon';
 import Confirm from 'melon/Confirm';
 import Panel from './timepicker/Panel';
 
+import omit from 'lodash/omit';
+
 const cx = create('TimePicker');
 
 export default class TimePicker extends InputComponent {
@@ -62,10 +64,7 @@ export default class TimePicker extends InputComponent {
 
     renderPopup(props) {
 
-        const {
-            size,
-            timeFormat
-        } = props;
+        const timeFormat = props.timeFormat;
 
         let {begin, end} = props;
 
@@ -80,7 +79,6 @@ export default class TimePicker extends InputComponent {
                 onCancel={this.onCancel}
                 onShow={this.props.onFocus}
                 onHide={this.props.onBlur}
-                size={size}
                 width="adaptive"
                 buttonVariants={['secondery', 'timepicker']} >
                 <Panel
@@ -215,6 +213,27 @@ export default class TimePicker extends InputComponent {
         this.setState({time});
     }
 
+    /**
+     * 渲染input
+     *
+     * @protected
+     * @return {ReactElement}
+     */
+    renderHiddenInput() {
+
+        const {name, value} = this.props;
+
+        return name
+            ? (
+                <input
+                    name={name}
+                    type="hidden"
+                    value={value} />
+            )
+            : null;
+
+    }
+
     render() {
 
         const {
@@ -225,7 +244,6 @@ export default class TimePicker extends InputComponent {
         const {
             disabled,
             readOnly,
-            name,
             placeholder,
             timeFormat,
             labelFormat,
@@ -241,13 +259,8 @@ export default class TimePicker extends InputComponent {
             .build();
 
         return (
-            <div {...others} className={className}>
-                <input
-                    name={name}
-                    ref="input"
-                    type="hidden"
-                    value={value}
-                    disabled={disabled} />
+            <div {...omit(others, ['autoConfirm', 'name'])} className={className}>
+                {this.renderHiddenInput()}
                 <label
                     onClick={(disabled || readOnly) ? null : this.onLabelClick}
                     className={cx.getPartClassName('label')}>
@@ -269,7 +282,6 @@ TimePicker.displayName = 'TimePicker';
 
 TimePicker.defaultProps = {
     ...InputComponent.defaultProps,
-    defaultValue: '',
     timeFormat: 'HH:mm:ss',
     labelFormat: 'HH:mm',
     placeholder: '请选择',

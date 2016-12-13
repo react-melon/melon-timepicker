@@ -66,6 +66,20 @@ class View extends React.Component {
                     <div className="melon-column melon-column-6">
                     </div>
                 </div>
+
+                <div className="melon-row">
+                    <div className="melon-column melon-column-6">
+                        <Title level={5}>各种size</Title>
+                        <TimePicker defaultValue="01:00" size="xxs" />
+                        <TimePicker defaultValue="01:00" size="xs" />
+                        <TimePicker defaultValue="01:00" size="s" />
+                        <TimePicker defaultValue="01:00" size="m" />
+                        <TimePicker defaultValue="01:00" size="l" />
+                        <TimePicker defaultValue="01:00" size="xl" />
+                    </div>
+                    <div className="melon-column melon-column-6">
+                    </div>
+                </div>
             </div>
         );
     }
