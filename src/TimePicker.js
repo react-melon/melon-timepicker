@@ -37,12 +37,14 @@ export default class TimePicker extends InputComponent {
 
         super(props, context);
 
-        const {defaultValue, value} = this.state;
+        const {defaultValue, value} = props;
 
         this.onLabelClick = this.onLabelClick.bind(this);
         this.onConfirm = this.onConfirm.bind(this);
         this.onCancel = this.onCancel.bind(this);
         this.onTimeChange = this.onTimeChange.bind(this);
+
+        const time = value === void 0 ? defaultValue : value;
 
         /**
          * 初始状态
@@ -54,10 +56,10 @@ export default class TimePicker extends InputComponent {
 
             ...this.state,
 
-            value: value === void 0 ? this.stringifyValue(defaultValue) : this.stringifyValue(value),
+            value: this.stringifyValue(time),
 
             // 缓存用户在 confirm 前的选中值
-            time: value ? this.parseValue(value) : void 0,
+            time: time ? this.parseValue(time) : void 0,
 
             // 是否打开选择窗
             open: false
