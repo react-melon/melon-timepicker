@@ -44,7 +44,7 @@ export default class TimePickerClock extends Component {
      * react 组件生命周期——判断是否需要更新组件，用来做性能优化
      *
      * @public
-     * @params {Object} nextProps 更新的属性
+     * @param {Object} nextProps 更新的属性
      * @return {boolean} 是否需要更新
      */
     shouldComponentUpdate(nextProps) {
