@@ -40,25 +40,7 @@ export default class TimePickerClock extends Component {
 
         this.onMouseDown = this.onMouseDown.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
-
-        // 限流
-        this.onMouseChange = (() => {
-
-            let handler = this.onMouseChange;
-
-            return e => {
-                clearTimeout(this.mouseChangeTimer);
-
-                /**
-                 * 限流延时编号
-                 *
-                 * @private
-                 * @type {number}
-                 */
-                this.mouseChangeTimer = setTimeout(handler.bind(this, e), 5);
-            };
-
-        })();
+        this.onMouseChange = this.onMouseChange.bind(this);
     }
 
     /**
