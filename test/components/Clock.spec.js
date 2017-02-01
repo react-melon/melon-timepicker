@@ -18,7 +18,6 @@ import Clock from '../../src/timepicker/Clock';
 import ClockItem from '../../src/timepicker/ClockItem';
 
 import {getPosition} from 'melon/common/util/dom';
-import then from '../then';
 
 
 function nativeMouseData(node) {
@@ -101,13 +100,6 @@ describe('Clock', function () {
         component.instance().onMouseChange(nativeMouseData(item));
 
         expect(changeSpy).toHaveBeenCalledWith({time: moment('11:00:00', 'HH:mm:ss').toDate()});
-        component.instance().onMouseUp();
-        changeSpy.calls.reset();
-
-        item = findDOMNode(clockItems.get(11));
-        component.instance().onMouseChange(nativeMouseData(item));
-
-        expect(changeSpy).toHaveBeenCalledWith({time: moment('12:00:00', 'HH:mm:ss').toDate()});
         component.instance().onMouseUp();
 
     });
