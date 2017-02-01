@@ -31,7 +31,12 @@ ReactDOM.render(<TimePicker />, container);
 
 ## Examples
 
-[demo](http://react-melon.github.io/melon/#/components?name=TimePicker)
+```
+npm install
+npm start
+```
+
+open http://localhost:8080/example in browser
 
 ## Test Case
 
