@@ -36,5 +36,14 @@ ReactDOM.render(<TimePicker />, container);
 ## Test Case
 
 ```
+npm install
 npm test
+```
+
+## Docs
+
+```
+npm install
+npm run docs
+open doc/index.html
 ```
