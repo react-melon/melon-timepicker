@@ -73,7 +73,7 @@ export default class TimePickerHeader extends Component {
 TimePickerHeader.displayName = 'TimePickerHeader';
 
 TimePickerHeader.defaultProps = {
-    time: new Date(),
+    time: moment().millisecond(0).seconds(0).toDate(),
     mode: 'hour'
 };
 

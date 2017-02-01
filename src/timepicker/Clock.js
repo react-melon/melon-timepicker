@@ -8,11 +8,7 @@ import moment from 'moment';
 
 import {create} from 'melon-core/classname/cxBuilder';
 import {range} from 'melon-core/util/array';
-import {
-    getPosition,
-    on,
-    off
-} from 'melon/common/util/dom';
+import {getPosition} from 'melon/common/util/dom';
 
 import ClockItem from './ClockItem';
 import ClockHand from './ClockHand';
@@ -25,13 +21,13 @@ const {
 
 export default class TimePickerClock extends Component {
 
-    constructor(props) {
-        super(props);
+    constructor(...args) {
+        super(...args);
 
-        this.onTimeChange = this.onTimeChange.bind(this);
         this.onMouseDown = this.onMouseDown.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
 
+        // 限流
         this.onMouseChange = (() => {
 
             let handler = this.onMouseChange;
@@ -44,6 +40,13 @@ export default class TimePickerClock extends Component {
         })();
     }
 
+    /**
+     * react 组件生命周期——判断是否需要更新组件，用来做性能优化
+     *
+     * @public
+     * @params {Object} nextProps 更新的属性
+     * @return {boolean} 是否需要更新
+     */
     shouldComponentUpdate(nextProps) {
 
         const {
@@ -59,23 +62,24 @@ export default class TimePickerClock extends Component {
             || !moment(end).isSame(nextProps.end);
     }
 
+    /**
+     * react 组件生命周期——组件销毁前调用
+     *
+     * @public
+     */
     componentWillUnmount() {
         clearTimeout(this.mouseChangeTimer);
         this.mouseChangeTimer = null;
     }
 
-    onTimeChange({time}) {
-        this.props.onChange({time});
-    }
-
     onMouseDown(e) {
 
         if (this.props.mode === 'minute') {
-            on(this.refs.main, 'mousemove', this.onMouseChange);
-            on(document, 'mouseup', this.onMouseUp);
+            this.refs.main.addEventListener('mousemove', this.onMouseChange);
+            document.addEventListener('mouseup', this.onMouseUp);
         }
         else {
-            on(this.refs.main, 'mouseup', this.onMouseChange);
+            this.refs.main.addEventListener('mouseup', this.onMouseChange);
         }
     }
 
@@ -83,11 +87,11 @@ export default class TimePickerClock extends Component {
 
         if (this.props.mode === 'minute') {
             this.onMouseChange(e);
-            off(this.refs.main, 'mousemove', this.onMouseChange);
-            off(document, 'mouseup', this.onMouseUp);
+            this.refs.main.removeEventListener('mousemove', this.onMouseChange);
+            document.removeEventListener('mouseup', this.onMouseUp);
         }
         else {
-            off(this.refs.main, 'mouseup', this.onMouseChange);
+            this.refs.main.removeEventListener('mouseup', this.onMouseChange);
         }
     }
 
@@ -127,15 +131,24 @@ export default class TimePickerClock extends Component {
 
         const single = mode === 'minute' ? 6 : 30;
         let number = Math.round(deg / single);
-        number = mode === 'hour' && number === 0 ? 12 : number;
-        number = mode === 'hour' && time.getHours() > 12 ? number + 12 : number;
 
-        if (moment(time)[mode](number).isSame(time)) {
+        if (mode === 'hour') {
+            // number为0表示选择了上午12点
+            number = number === 0 ? 12 : number;
+            // 下午的时间加12
+            number = time.getHours() > 12 ? number + 12 : number;
+            // number为24时的特殊处理，日期如果不改为0，日期会加1
+            number = number === 24 ? 0 : number;
+        }
+
+        const newTime = moment(time)[mode](number).toDate();
+
+        if (moment(newTime).isSame(time)) {
             return;
         }
 
-        this.onTimeChange({
-            time: moment(time)[mode](number).toDate()
+        this.props.onChange({
+            time: newTime
         });
 
     }
@@ -189,7 +202,8 @@ export default class TimePickerClock extends Component {
 
         const {
             time,
-            mode
+            mode,
+            onChange
         } = this.props;
 
         const className = cx(this.props)
@@ -205,7 +219,7 @@ export default class TimePickerClock extends Component {
                     <ClockHand
                         time={time}
                         mode={mode}
-                        onChange={this.onTimeChange} />
+                        onChange={onChange} />
                     {this.renderItems()}
                 </div>
             </div>

@@ -5,12 +5,9 @@
 
 import React, {PropTypes} from 'react';
 import moment from 'moment';
-import ReactDOM from 'react-dom';
 
 import InputComponent from 'melon-core/InputComponent';
 import {create} from 'melon-core/classname/cxBuilder';
-import Validity from 'melon-core/Validity';
-import {getNextValidity} from 'melon-core/util/syncPropsToState';
 
 import Icon  from 'melon/Icon';
 import Confirm from 'melon/Confirm';
@@ -20,8 +17,22 @@ import omit from 'lodash/omit';
 
 const cx = create('TimePicker');
 
+/**
+ * melon/TimePicker
+ *
+ * @extends {React.Component}
+ * @class
+ */
 export default class TimePicker extends InputComponent {
 
+    /**
+     * 构造函数
+     *
+     * @public
+     * @constructor
+     * @param {*} props 属性
+     * @param {*} context 上下文
+     */
     constructor(props, context) {
 
         super(props, context);
@@ -38,90 +49,10 @@ export default class TimePicker extends InputComponent {
             ...this.state,
 
             // 缓存用户在 confirm 前的选中值
-            time: value ? this.parseValue(value) : undefined,
+            time: value ? this.parseValue(value) : void 0,
 
             // 是否打开选择窗
             open: false
-        };
-
-    }
-
-    componentDidMount() {
-
-        super.componentDidMount();
-
-        let container = this.container = document.createElement('div');
-
-        container.className = cx().part('popup').build();
-
-        document.body.appendChild(container);
-        this.renderPopup(this.props);
-    }
-
-    componentDidUpdate() {
-        this.renderPopup(this.props);
-    }
-
-    renderPopup(props) {
-
-        const timeFormat = props.timeFormat;
-
-        let {begin, end} = props;
-
-        begin = begin ? this.parseValue(begin) : null;
-        end = end ? this.parseValue(end) : null;
-
-        this.popup = ReactDOM.render(
-            <Confirm
-                open={this.state.open}
-                variants={['timepicker']}
-                onConfirm={this.onConfirm}
-                onCancel={this.onCancel}
-                onShow={this.props.onFocus}
-                onHide={this.props.onBlur}
-                width="adaptive"
-                buttonVariants={['secondery', 'timepicker']} >
-                <Panel
-                    time={this.state.time}
-                    begin={begin}
-                    end={end}
-                    format={timeFormat}
-                    onChange={this.onTimeChange} />
-            </Confirm>,
-            this.container
-        );
-    }
-
-    componentWillUnmount() {
-
-        let container = this.container;
-
-        if (container) {
-            ReactDOM.unmountComponentAtNode(container);
-            container.parentElement.removeChild(container);
-            this.container = container = null;
-        }
-    }
-
-    getSyncUpdates(nextProps) {
-
-        const {disabled, readOnly, customValidity, defaultValue} = nextProps;
-
-        let value = nextProps.value == null ? defaultValue : nextProps.value;
-
-        // 如果有值，那么就试着解析一下；否则设置为 null
-        let time = value ? this.parseValue(value) : null;
-
-        // 如果 time 为 null 或者是 invalid time，那么就用上默认值；
-        // 否则就用解析出来的这个值
-        time = !time || isNaN(time.getTime()) ? new Date() : time;
-
-        const vilidity = getNextValidity(this, {value, disabled, customValidity});
-
-        return {
-            time,
-            vilidity,
-            value: disabled || readOnly || !value ? value : this.stringifyValue(time)
         };
 
     }
@@ -250,16 +181,20 @@ export default class TimePicker extends InputComponent {
             ...others
         } = props;
 
-        const {value, validity} = state;
+        let {begin, end} = props;
 
-        const open = state.open;
+        begin = begin ? this.parseValue(begin) : null;
+        end = end ? this.parseValue(end) : null;
+
+        const {value, open} = state;
+
         const className = cx(props)
             .addStates({focus: open})
             .addStates(this.getStyleStates())
             .build();
 
         return (
-            <div {...omit(others, ['autoConfirm', 'name'])} className={className}>
+            <div {...omit(others, ['name'])} className={className}>
                 {this.renderHiddenInput()}
                 <label
                     onClick={(disabled || readOnly) ? null : this.onLabelClick}
@@ -271,7 +206,22 @@ export default class TimePicker extends InputComponent {
                     )}
                     <Icon icon='expand-more' />
                 </label>
-                <Validity validity={validity} />
+                <Confirm
+                    open={this.state.open}
+                    variants={['timepicker']}
+                    onConfirm={this.onConfirm}
+                    onCancel={this.onCancel}
+                    onShow={this.props.onFocus}
+                    onHide={this.props.onBlur}
+                    width="adaptive"
+                    buttonVariants={['secondery', 'timepicker']} >
+                    <Panel
+                        time={this.state.time}
+                        begin={begin}
+                        end={end}
+                        format={timeFormat}
+                        onChange={this.onTimeChange} />
+                </Confirm>
             </div>
         );
 
@@ -284,14 +234,12 @@ TimePicker.defaultProps = {
     ...InputComponent.defaultProps,
     timeFormat: 'HH:mm:ss',
     labelFormat: 'HH:mm',
-    placeholder: '请选择',
-    autoConfirm: false
+    placeholder: '请选择'
 };
 
 TimePicker.propTypes = {
     ...InputComponent.propTypes,
-    value: PropTypes.string,
-    autoConfirm: PropTypes.bool,
+    placeholder: PropTypes.string,
     timeFormat: PropTypes.string,
     labalFormat: PropTypes.string,
     end: PropTypes.oneOfType([

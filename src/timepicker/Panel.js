@@ -87,7 +87,7 @@ export default class TimePickerPanel extends Component {
 TimePickerPanel.displayName = 'TimePickerPanel';
 
 TimePickerPanel.defaultProps = {
-    time: new Date(),
+    time: moment().millisecond(0).seconds(0).toDate(),
     mode: 'hour'
 };
 

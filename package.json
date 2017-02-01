@@ -21,7 +21,11 @@
     "babel-preset-es2015": "^6.14.0",
     "babel-preset-react": "^6.11.1",
     "coveralls": "^2.11.9",
+    "cross-env": "^3.1.4",
     "css-loader": "^0.24.0",
+    "enzyme": "^2.7.1",
+    "esdoc": "^0.4.8",
+    "esdoc-es7-plugin": "0.0.3",
     "file-loader": "^0.9.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
@@ -29,13 +33,15 @@
     "gulp-clean": "^0.3.2",
     "gulp-sourcemaps": "^1.6.0",
     "jasmine-core": "^2.4.1",
-    "jasmine-expect-jsx": "^1.1.2",
+    "json-loader": "^0.5.4",
     "karma": "^1.1.0",
     "karma-chrome-launcher": "^2.0.0",
     "karma-coverage": "^1.0.0",
     "karma-jasmine": "^1.0.2",
+    "karma-jasmine-expect-jsx": "^1.0.2",
     "karma-mocha-reporter": "^2.0.4",
     "karma-sauce-launcher": "^1.0.0",
+    "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.8.0",
     "lodash": "^4.15.0",
     "nib": "^1.1.0",
@@ -50,14 +56,15 @@
     "webpack-dev-server": "^1.15.0"
   },
   "scripts": {
-    "test": "./node_modules/.bin/karma start ./tools/karma.conf.js",
-    "test-ci": "./node_modules/.bin/karma start ./tools/karma.ci.conf.js",
+    "test": "cross-env NODE_ENV=test ./node_modules/.bin/karma start ./tools/karma.conf.js",
+    "test-ci": "cross-env NODE_ENV=test ./node_modules/.bin/karma start ./tools/karma.ci.conf.js",
     "coveralls": "cat ./coverage/lcov/lcov.info | ./node_modules/.bin/coveralls",
-    "start": "node tools/server.js",
-    "build": "gulp build",
+    "start": "cross-env NODE_ENV=dev node tools/server.js",
+    "build": "cross-env NODE_ENV=production gulp build",
     "lint": "fecs src --rule",
-    "rebuild": "gulp clean build",
-    "prepublish": "npm run lint && npm run rebuild"
+    "rebuild": "cross-env NODE_ENV=production gulp clean build",
+    "prepublish": "npm run lint && npm run rebuild",
+    "docs": "esdoc -c esdoc.json"
   },
   "repository": {
     "type": "git",
@@ -78,46 +85,52 @@
     "url": "https://github.com/react-melon/melon-timepicker/issues"
   },
   "homepage": "https://github.com/react-melon/melon-timepicker#readme",
-  "edp": {
-    "wwwroot": "/",
-    "depDir": "dep",
-    "srcDir": "src",
-    "loaderAutoConfig": "js,htm,html,tpl,vm,phtml",
-    "loaderUrl": "http://s1.bdstatic.com/r/www/cache/ecom/esl/1-8-2/esl.js",
-    "dependencies": {}
-  },
   "dependencies": {
     "lodash": "^4.17.2",
-    "melon": "^0.4.0",
+    "melon": "^0.5.1",
     "melon-core": "^0.4.1",
     "moment": "^2.13.0"
   },
   "babel": {
-    "presets": [
-      "es2015",
-      "react"
-    ],
-    "plugins": [
-      "transform-object-rest-spread"
-    ]
-  },
-  "babelBuild": {
-    "presets": [
-      [
-        "es2015",
-        {
-          "loose": true,
-          "modules": "umd"
-        }
-      ],
-      "react"
-    ],
-    "plugins": [
-      "transform-object-rest-spread",
-      "external-helpers",
-      "external-helpers-insert-require",
-      "transform-es3-property-literals",
-      "transform-es3-member-expression-literals"
-    ]
+    "env": {
+      "dev": {
+        "presets": [
+          "es2015",
+          "react"
+        ],
+        "plugins": [
+          "transform-object-rest-spread"
+        ]
+      },
+      "test": {
+        "presets": [
+          "es2015",
+          "react"
+        ],
+        "plugins": [
+          "transform-object-rest-spread",
+          "istanbul"
+        ]
+      },
+      "production": {
+        "presets": [
+          [
+            "es2015",
+            {
+              "loose": true,
+              "modules": "umd"
+            }
+          ],
+          "react"
+        ],
+        "plugins": [
+          "transform-object-rest-spread",
+          "external-helpers",
+          "external-helpers-insert-require",
+          "transform-es3-property-literals",
+          "transform-es3-member-expression-literals"
+        ]
+      }
+    }
   }
 }

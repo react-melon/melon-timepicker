@@ -4,38 +4,36 @@
  */
 
 const path = require('path');
-const babelOptions = require('../../package.json').babel;
-
-babelOptions.plugins.push('istanbul');
 
 module.exports = {
 
     basePath: path.join(__dirname, '../../'),
 
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine', 'jasmine-expect-jsx'],
 
     files: [
-        './node_modules/jasmine-expect-jsx/dist/jasmine-expect-jsx.js', // expect-jsx
-        './test/**/*.spec.js',
-        './src/index.styl'
+        './test/**/*.spec.js'
     ],
 
     browsers: ['Chrome'],
 
     preprocessors: {
-        './test/**/*.spec.js': ['webpack'],
-        './src/*.js': ['coverage'],
-        './src/index.styl': ['webpack']
+        './test/**/*.spec.js': ['webpack', 'sourcemap'],
+        './src/*.js': ['coverage', 'sourcemap']
     },
 
     webpack: {
+        devtool: 'inline-source-map',
         module: {
-            preLoaders: [
+            loaders: [
                 {
                     test: /\.js$/,
                     loader: 'babel',
-                    exclude: /node_modules/,
-                    query: babelOptions
+                    exclude: /node_modules/
+                },
+                {
+                    test: /\.json$/,
+                    loader: 'json'
                 },
                 // 处理 stylus
                 {
@@ -46,12 +44,21 @@ module.exports = {
                 {
                     test: /\.(svg|eot|ttf|woff|woff2)($|\?)/,
                     loader: 'file'
+                },
+                {
+                    test: /\.css$/,
+                    loader: 'style!css'
                 }
             ]
         },
         // stylus loader 中引入 nib 库支持
         stylus: {
             use: [require('nib')()]
+        },
+        externals: {
+            'react/addons': true,
+            'react/lib/ExecutionEnvironment': true,
+            'react/lib/ReactContext': true
         }
     },
 
