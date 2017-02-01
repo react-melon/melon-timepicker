@@ -111,7 +111,7 @@ describe('Clock', function () {
             expect(changeSpy).toHaveBeenCalledWith({time: moment('12:00:00', 'HH:mm:ss').toDate()});
             component.instance().onMouseUp();
             done();
-        }, 100);
+        }, 120);
     });
 
     it('change hour pm', done => {

@@ -19,10 +19,24 @@ const {
     atan
 } = Math;
 
+/**
+ * melon/TimePickerClock
+ *
+ * @extends {React.Component}
+ * @class
+ */
 export default class TimePickerClock extends Component {
 
-    constructor(...args) {
-        super(...args);
+
+    /**
+     * 构造函数
+     *
+     * @constructor
+     * @public
+     * @param  {*} props 组件属性
+     */
+    constructor(props) {
+        super(props);
 
         this.onMouseDown = this.onMouseDown.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
@@ -34,6 +48,13 @@ export default class TimePickerClock extends Component {
 
             return e => {
                 clearTimeout(this.mouseChangeTimer);
+
+                /**
+                 * 限流延时编号
+                 *
+                 * @private
+                 * @type {number}
+                 */
                 this.mouseChangeTimer = setTimeout(handler.bind(this, e), 5);
             };
 
@@ -44,6 +65,7 @@ export default class TimePickerClock extends Component {
      * react 组件生命周期——判断是否需要更新组件，用来做性能优化
      *
      * @public
+     * @override
      * @param {Object} nextProps 更新的属性
      * @return {boolean} 是否需要更新
      */
@@ -66,12 +88,19 @@ export default class TimePickerClock extends Component {
      * react 组件生命周期——组件销毁前调用
      *
      * @public
+     * @override
      */
     componentWillUnmount() {
         clearTimeout(this.mouseChangeTimer);
         this.mouseChangeTimer = null;
     }
 
+    /**
+     * 鼠标按下事件处理
+     *
+     * @protected
+     * @param  {MouseEvent} e 事件对象
+     */
     onMouseDown(e) {
 
         if (this.props.mode === 'minute') {
@@ -83,6 +112,12 @@ export default class TimePickerClock extends Component {
         }
     }
 
+    /**
+     * 鼠标松开事件处理
+     *
+     * @protected
+     * @param  {MouseEvent} e 事件对象
+     */
     onMouseUp(e) {
 
         if (this.props.mode === 'minute') {
@@ -95,6 +130,15 @@ export default class TimePickerClock extends Component {
         }
     }
 
+
+    /**
+     * 鼠标操作处理
+     *
+     * @protected
+     * @param  {MouseEvent} param 鼠标事件对象
+     * @param  {number} param.pageX x 坐标
+     * @param  {number} param.pageY y 坐标
+     */
     onMouseChange({pageX, pageY}) {
 
         const mainPosition = getPosition(this.refs.main);
@@ -153,6 +197,12 @@ export default class TimePickerClock extends Component {
 
     }
 
+    /**
+     * 渲染数字
+     *
+     * @public
+     * @return {ReactElement}
+     */
     renderItems() {
 
         const {
@@ -198,6 +248,12 @@ export default class TimePickerClock extends Component {
 
     }
 
+    /**
+     * 渲染
+     *
+     * @public
+     * @return {ReactElement}
+     */
     render() {
 
         const {

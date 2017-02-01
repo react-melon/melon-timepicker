@@ -12,8 +12,20 @@ const cx = create('TimePickerClockItem');
 
 const PI = Math.PI;
 
+/**
+ * melon/TimePickerClockItem
+ *
+ * @extends {React.Component}
+ * @class
+ */
 export default class TimePickerClockItem extends Component {
 
+
+    /**
+     * 返回数字的样式
+     *
+     * @return {Object}  样式
+     */
     getStyle() {
 
         const {
@@ -43,6 +55,12 @@ export default class TimePickerClockItem extends Component {
 
     }
 
+    /**
+     * 渲染
+     *
+     * @public
+     * @return {ReactElement}
+     */
     render() {
 
         const {

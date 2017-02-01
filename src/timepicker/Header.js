@@ -10,8 +10,20 @@ import {create} from 'melon-core/classname/cxBuilder';
 
 const cx = create('TimePickerHeader');
 
+/**
+ * melon/TimePickerHeader
+ *
+ * @extends {React.Component}
+ * @class
+ */
 export default class TimePickerHeader extends Component {
 
+    /**
+     * 渲染
+     *
+     * @public
+     * @return {ReactElement}
+     */
     render() {
 
         const props = this.props;

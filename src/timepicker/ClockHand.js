@@ -10,8 +10,19 @@ import {create} from 'melon-core/classname/cxBuilder';
 
 const cx = create('TimePickerClockHand');
 
+/**
+ * melon/TimePickerClockHand
+ *
+ * @extends {React.Component}
+ * @class
+ */
 export default class TimePickerClockHand extends Component {
 
+    /**
+     * 返回指针的样式
+     *
+     * @return {Object}  样式
+     */
     getStyle() {
 
         const {
@@ -35,6 +46,12 @@ export default class TimePickerClockHand extends Component {
 
     }
 
+    /**
+     * 渲染
+     *
+     * @public
+     * @return {ReactElement}
+     */
     render() {
 
         const {

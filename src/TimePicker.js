@@ -44,6 +44,12 @@ export default class TimePicker extends InputComponent {
         this.onCancel = this.onCancel.bind(this);
         this.onTimeChange = this.onTimeChange.bind(this);
 
+        /**
+         * 初始状态
+         *
+         * @private
+         * @type {Object}
+         */
         this.state = {
 
             ...this.state,
@@ -61,9 +67,8 @@ export default class TimePicker extends InputComponent {
      * 格式化日期
      *
      * @param {Date} time 源日期对象
-     * @param {string=} format 日期格式，默认为当前实例的timeFormat
      * @return {string} 格式化后的日期字符串
-     * @private
+     * @public
      */
     stringifyValue(time) {
 
@@ -81,7 +86,7 @@ export default class TimePicker extends InputComponent {
      *
      * @param  {string} date 日期字符串
      * @return {Date}        转化后的日期对象
-     * @private
+     * @public
      */
     parseValue(date) {
 
@@ -93,7 +98,12 @@ export default class TimePicker extends InputComponent {
     }
 
 
-    onLabelClick(e) {
+    /**
+     * 点击 label
+     *
+     * @protected
+     */
+    onLabelClick() {
 
         const {disabled, readOnly} = this.props;
 
@@ -102,13 +112,12 @@ export default class TimePicker extends InputComponent {
         }
 
         this.setState({open: true});
-
     }
 
     /**
-     * rawValue 在 TimePicker Dialog上点击确定或取消按钮触发
+     * TimePicker Dialog上点击确定按钮触发
      *
-     * @private
+     * @protected
      */
     onConfirm() {
 
@@ -136,10 +145,22 @@ export default class TimePicker extends InputComponent {
 
     }
 
+    /**
+     * TimePicker Dialog上点击取消按钮触发
+     *
+     * @protected
+     */
     onCancel() {
         this.setState({open: false});
     }
 
+
+    /**
+     * onTimeChange - description
+     *
+     * @param  {Object} param 事件对象
+     * @param  {Date} param.time 改变的时间
+     */
     onTimeChange({time}) {
         this.setState({time});
     }
@@ -165,6 +186,12 @@ export default class TimePicker extends InputComponent {
 
     }
 
+    /**
+     * 渲染
+     *
+     * @public
+     * @return {ReactElement}
+     */
     render() {
 
         const {
