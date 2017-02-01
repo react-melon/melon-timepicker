@@ -263,7 +263,7 @@ export default class TimePicker extends InputComponent {
                     <Icon icon='expand-more' />
                 </label>
                 <Confirm
-                    open={this.state.open}
+                    open={open}
                     variants={['timepicker']}
                     onConfirm={this.onConfirm}
                     onCancel={this.onCancel}

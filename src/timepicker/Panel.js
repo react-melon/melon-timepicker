@@ -58,7 +58,7 @@ export default class TimePickerPanel extends Component {
 
         const time = nextProps.time;
 
-        if (this.props.time !== time) {
+        if (!moment(time).isSame(this.props.time)) {
             this.setState({time});
         }
     }
@@ -73,7 +73,7 @@ export default class TimePickerPanel extends Component {
      * @return {boolean} 是否需要更新
      */
     shouldComponentUpdate(nextProps, nextState) {
-        return !moment(nextState.time).isSame(this.state.time, 'minute')
+        return !moment(nextState.time).isSame(this.state.time)
             || nextState.mode !== this.state.mode;
     }
 
@@ -122,6 +122,11 @@ export default class TimePickerPanel extends Component {
             mode
         } = this.state;
 
+        const {
+            begin,
+            end
+        } = this.props;
+
         return (
             <div className={cx(this.props).build()}>
                 <Header
@@ -132,6 +137,8 @@ export default class TimePickerPanel extends Component {
                 <Clock
                     time={time}
                     mode={mode}
+                    begin={begin}
+                    end={end}
                     onChange={this.onTimeChange} />
             </div>
         );
