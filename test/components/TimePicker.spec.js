@@ -8,57 +8,167 @@
 import '../../src/index.styl';
 
 import React from 'react';
-import {findDOMNode} from 'react-dom';
-import moment from 'moment';
-import TestUtils from 'react-addons-test-utils';
 
 import {mount} from 'enzyme';
 
 import Confirm from 'melon/Confirm';
 import TimePicker from '../../src/TimePicker';
-import Clock from '../../src/timepicker/Clock';
-import ClockItem from '../../src/timepicker/ClockItem';
 
-import {getPosition} from 'melon/common/util/dom';
 import then from '../then';
 
 describe('TimePicker', function () {
 
     let changeSpy;
     let component;
-    let container;
 
-    describe('base', () => {
+    beforeEach(() => {
+        changeSpy = jasmine.createSpy('onChange');
+        component = mount(
+            <TimePicker />
+        );
+    });
 
-        beforeEach(() => {
-            container = document.createElement('div');
-            document.body.appendChild(container);
-            changeSpy = jasmine.createSpy('onChange');
-            component = mount(
-                <TimePicker />,
-                {
-                    attachTo: container
-                }
-            );
+    afterEach(() => {
+        changeSpy.calls.reset();
+        component.unmount();
+        component = null;
+    });
+
+    it('dom', function () {
+        expect(component.find('.ui-time-picker-label').length).toBe(1);
+        expect(component.find(Confirm).length).toBe(1);
+        expect(component.find('input').length).toBe(0);
+
+        component.setProps({name: 'test'});
+        expect(component.find('input').length).toBe(1);
+    });
+
+    it('focus & blur', done => {
+
+        const focusSpy = jasmine.createSpy('focus');
+        const blurSpy = jasmine.createSpy('blur');
+
+        component.setProps({
+            onFocus: focusSpy,
+            onBlur: blurSpy
         });
 
-        afterEach(() => {
-            changeSpy.calls.reset();
-            component.unmount();
-            component = null;
-            document.body.removeChild(container);
-            container = null;
+        component.find('.ui-time-picker-label').at(0).simulate('click');
+        let buttons = [];
+
+        then(() => {
+            expect(component.state('open')).toBeTruthy();
+            expect(component.hasClass('state-focus')).toBeTruthy();
+            expect(focusSpy).toHaveBeenCalled();
+            buttons = document.querySelectorAll('.ui-button');
+            expect(buttons.length).toBe(2);
+            buttons[0].click();
+        }).then(() => {
+            expect(blurSpy).toHaveBeenCalled();
+            expect(component.state('open')).toBeFalsy();
+            expect(component.hasClass('state-focus')).toBeFalsy();
+            blurSpy.calls.reset();
+            component.find('.ui-time-picker-label').at(0).simulate('click');
+        }).then(() => {
+            buttons = document.querySelectorAll('.ui-button');
+            expect(buttons.length).toBe(2);
+            buttons[1].click();
+        }).then(() => {
+            expect(blurSpy).toHaveBeenCalled();
+            expect(component.state('open')).toBeFalsy();
+            expect(component.hasClass('state-focus')).toBeFalsy();
+            done();
+        });
+    });
+
+    it('disabled', done => {
+        const focusSpy = jasmine.createSpy('focus');
+
+        component.setProps({
+            disabled: true,
+            onFocus: focusSpy
         });
 
-        it('dom', function () {
-            expect(component.find('.ui-time-picker-label').length).toBe(1);
-            expect(component.find(Confirm).length).toBe(1);
-            expect(component.find('input').length).toBe(0);
+        expect(component.hasClass('state-disabled')).toBeTruthy();
 
-            component.setProps({name: 'test'});
-            expect(component.find('input').length).toBe(1);
+        component.find('.ui-time-picker-label').at(0).simulate('click');
+
+        then(() => {
+            expect(component.state('open')).toBeFalsy();
+            expect(component.hasClass('state-focus')).toBeFalsy();
+            expect(focusSpy).not.toHaveBeenCalled();
+        }).then(done);
+    });
+
+    it('readOnly', done => {
+        const focusSpy = jasmine.createSpy('focus');
+
+        component.setProps({
+            readOnly: true,
+            onFocus: focusSpy
         });
 
+        expect(component.hasClass('state-read-only')).toBeTruthy();
+
+        component.find('.ui-time-picker-label').at(0).simulate('click');
+
+        then(() => {
+            expect(component.state('open')).toBeFalsy();
+            expect(component.hasClass('state-focus')).toBeFalsy();
+            expect(focusSpy).not.toHaveBeenCalled();
+        }).then(done);
+    });
+
+    it('uncontrolled timepicker', done => {
+
+        component.unmount();
+
+        component = mount(
+            <TimePicker defaultValue="11:00:00" />
+        );
+
+        expect(component.state('value')).toEqual('11:00:00');
+
+        component.find('.ui-time-picker-label').at(0).simulate('click');
+        let buttons = [];
+
+        then(() => {
+            expect(component.state('open')).toBeTruthy();
+            document.querySelector('.ui-time-picker-header-apm-pm').click();
+            buttons = document.querySelectorAll('.ui-button');
+            buttons[1].click();
+        }).then(() => {
+            expect(component.state('value')).toEqual('23:00:00');
+            done();
+        });
+    });
+
+    it('controlled timepicker', done => {
+
+        component.unmount();
+
+        const changeSpy = jasmine.createSpy('change');
+
+        component = mount(
+            <TimePicker value={new Date(2017, 1, 1, 11, 0, 0)} onChange={changeSpy} />
+        );
+
+        expect(component.state('value')).toEqual('11:00:00');
+
+        component.find('.ui-time-picker-label').at(0).simulate('click');
+        let buttons = [];
+
+        then(() => {
+            expect(component.state('open')).toBeTruthy();
+            document.querySelector('.ui-time-picker-header-apm-pm').click();
+            buttons = document.querySelectorAll('.ui-button');
+            buttons[1].click();
+        }).then(() => {
+            expect(changeSpy).toHaveBeenCalled();
+            expect(component.state('value')).toEqual('11:00:00');
+            expect(changeSpy.calls.argsFor(0)[0].value).toBe('23:00:00');
+            done();
+        });
     });
 
 });

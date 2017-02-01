@@ -37,7 +37,7 @@ export default class TimePicker extends InputComponent {
 
         super(props, context);
 
-        const value = this.state.value;
+        const {defaultValue, value} = this.state;
 
         this.onLabelClick = this.onLabelClick.bind(this);
         this.onConfirm = this.onConfirm.bind(this);
@@ -53,6 +53,8 @@ export default class TimePicker extends InputComponent {
         this.state = {
 
             ...this.state,
+
+            value: value === void 0 ? this.stringifyValue(defaultValue) : this.stringifyValue(value),
 
             // 缓存用户在 confirm 前的选中值
             time: value ? this.parseValue(value) : void 0,
@@ -105,13 +107,35 @@ export default class TimePicker extends InputComponent {
      */
     onLabelClick() {
 
-        const {disabled, readOnly} = this.props;
+        this.setState({open: true});
 
-        if (disabled || readOnly) {
-            return;
+        const onFocus = this.props.onFocus;
+
+        if (onFocus)  {
+            onFocus({
+                type: 'focus',
+                target: this
+            });
+        }
+    }
+
+    /**
+     * 失去焦点时处理
+     *
+     * @protected
+     * @param  {Object} e 事件对象
+     */
+    onBlur() {
+
+        const onBlur = this.props.onBlur;
+
+        if (onBlur)  {
+            onBlur({
+                type: 'blur',
+                target: this
+            });
         }
 
-        this.setState({open: true});
     }
 
     /**
@@ -143,6 +167,8 @@ export default class TimePicker extends InputComponent {
 
         });
 
+        this.onBlur();
+
     }
 
     /**
@@ -152,6 +178,7 @@ export default class TimePicker extends InputComponent {
      */
     onCancel() {
         this.setState({open: false});
+        this.onBlur();
     }
 
 
@@ -238,8 +265,6 @@ export default class TimePicker extends InputComponent {
                     variants={['timepicker']}
                     onConfirm={this.onConfirm}
                     onCancel={this.onCancel}
-                    onShow={this.props.onFocus}
-                    onHide={this.props.onBlur}
                     width="adaptive"
                     buttonVariants={['secondery', 'timepicker']} >
                     <Panel
