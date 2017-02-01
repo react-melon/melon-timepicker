@@ -14,5 +14,5 @@ tools
 .coveralls.yml
 bower.json
 .fecsrc
-docs
+doc
 esdoc.json
