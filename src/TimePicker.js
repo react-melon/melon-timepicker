@@ -76,7 +76,7 @@ export default class TimePicker extends InputComponent {
      */
     stringifyValue(time) {
 
-        if (typeof time === 'string') {
+        if (typeof time === 'string' || time == null) {
             return time;
         }
 
