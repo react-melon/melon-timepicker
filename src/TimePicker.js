@@ -68,6 +68,26 @@ export default class TimePicker extends InputComponent {
     }
 
     /**
+     * react生命周期，组件将更新时触发，用于value和date的同步
+     *
+     * @param {Object} _ 属性
+     * @param {Object} nextState 状态
+     */
+    componentWillUpdate(_, nextState) {
+        const time = this.parseValue(nextState.value);
+        if (this.state.value !== nextState.value && (
+            time === void 0
+            || nextState.time === void 0
+            || !moment(time).isSame(nextState.time, 'minute')
+            || !moment(time).isSame(nextState.time, 'hour')
+        )) {
+            this.setState({
+                date: this.parseValue(nextState.value)
+            });
+        }
+    }
+
+    /**
      * 格式化日期
      *
      * @param {Date} time 源日期对象
@@ -167,9 +187,9 @@ export default class TimePicker extends InputComponent {
                 value: this.stringifyValue(time)
             });
 
-        });
+            this.onBlur();
 
-        this.onBlur();
+        });
 
     }
 
@@ -179,8 +199,9 @@ export default class TimePicker extends InputComponent {
      * @protected
      */
     onCancel() {
-        this.setState({open: false});
-        this.onBlur();
+        this.setState({open: false}, () => {
+            this.onBlur();
+        });
     }
 
 
