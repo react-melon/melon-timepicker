@@ -94,15 +94,14 @@ export default class TimePickerPanel extends Component {
      * @protected
      * @param  {Object} param 事件对象
      * @param  {Date} param.time 改变的时间
-     * @param  {boolean} param.isModeChange 选择模式是否有改变
+     * @param  {boolean} param.mode 选择模式
      */
-    onTimeChange({time, isModeChange = false}) {
+    onTimeChange({time, mode}) {
 
-        let nextState = {time};
-
-        if (this.props.mode === 'hour' && isModeChange) {
-            nextState.mode = 'minute';
-        }
+        let nextState = {
+            time,
+            mode: mode || this.state.mode
+        };
 
         this.setState(nextState, () => {
             this.props.onChange({time});

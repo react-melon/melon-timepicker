@@ -119,6 +119,18 @@ describe('TimePicker', function () {
         }).then(done);
     });
 
+    it('change mode', done => {
+        component.find('.ui-time-picker-label').at(0).simulate('click');
+
+        then(() => {
+            expect(component.state('open')).toBeTruthy();
+            document.querySelector('.ui-time-picker-header-time-minute').click();
+        }).then(() => {
+            expect(document.querySelector('.ui-time-picker-header-time-minute').className).toMatch('state-selected');
+            done();
+        });
+    });
+
     it('uncontrolled timepicker', done => {
 
         component.unmount();

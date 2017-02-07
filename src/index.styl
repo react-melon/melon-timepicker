@@ -19,6 +19,7 @@
 
     &.state-disabled &-label
         cursor: not-allowed
+        color: $-melon-colors.grey400
 
     &-label
         display inline-block
@@ -109,6 +110,11 @@
         &.state-selected
             background-color: $-melon-colors.cyan500
             color: $-melon-colors.white
+
+        &.state-disabled
+            color: $-melon-colors.white
+            cursor: not-allowed
+            color: $-melon-colors.grey400
 
     &-clock-hand
         display: inline-block

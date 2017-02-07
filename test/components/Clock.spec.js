@@ -126,20 +126,32 @@ describe('Clock', function () {
         component.instance().onMouseUp();
     });
 
-    it('change minute', function (done) {
-        component.setProps({mode: 'minute'});
-        component.setProps({begin: moment('05:00:00', 'HH:mm:ss').toDate()});
-        component.setProps({end: moment('05:45:00', 'HH:mm:ss').toDate()});
+    it('change minute', function () {
+        component.setProps({
+            time: moment('05:10:00', 'HH:mm:ss').toDate(),
+            mode: 'minute'
+        });
 
         let item = findDOMNode(component.find(ClockItem).get(1));
         component.find(ClockItem).at(1).simulate('mousedown');
         component.instance().onMouseUp(nativeMouseData(item));
         expect(changeSpy).toHaveBeenCalledWith({time: moment('05:05:00', 'HH:mm:ss').toDate()});
         changeSpy.calls.reset();
+
         component.instance().onMouseUp(nativeMouseData(item));
         expect(changeSpy).not.toHaveBeenCalledWith();
-        done();
-    });
 
+        item = findDOMNode(component.find(ClockItem).get(0));
+        component.instance().onMouseUp(nativeMouseData(item));
+        expect(changeSpy).toHaveBeenCalledWith({
+            time: moment('05:00:00', 'HH:mm:ss').toDate()
+        });
+        changeSpy.calls.reset();
+
+        // 点在了中心点
+        item = component.find('.ui-time-picker-clock-main').get(0);
+        component.instance().onMouseUp(nativeMouseData(item));
+        expect(changeSpy).not.toHaveBeenCalledWith();
+    });
 
 });

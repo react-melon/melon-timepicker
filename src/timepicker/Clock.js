@@ -152,7 +152,9 @@ export default class TimePickerClock extends Component {
 
         const {
             time,
-            mode
+            mode,
+            begin,
+            end
         } = this.props;
 
         const single = mode === 'minute' ? 6 : 30;
@@ -166,10 +168,16 @@ export default class TimePickerClock extends Component {
             // number为24时的特殊处理，日期如果不改为0，日期会加1
             number = number === 24 ? 0 : number;
         }
+        else if (mode === 'minute') {
+            number = number === 60 ? 0 : number;
+        }
 
         const newTime = moment(time)[mode](number).toDate();
 
-        if (moment(newTime).isSame(time)) {
+        if (moment(newTime).isSame(time)
+            || (begin && moment(newTime).isBefore(begin))
+            || (end && moment(newTime).isAfter(end))
+        ) {
             return;
         }
 

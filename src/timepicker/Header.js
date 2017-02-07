@@ -63,14 +63,14 @@ export default class TimePickerHeader extends Component {
                 <div className={cx.getPartClassName('apm')}>
                     <span
                         onClick={!isAfternoon && props.onChange ? null : () => {
-                            props.onChange({time: moment(time).subtract(12, 'h').toDate(), isModeChange: false});
+                            props.onChange({time: moment(time).subtract(12, 'h').toDate()});
                         }}
                         className={cx().part('apm-am').addStates({selected: !isAfternoon}).build()}>
                         AM
                     </span>
                     <span
                         onClick={isAfternoon && props.onChange ? null : () => {
-                            props.onChange({time: moment(time).add(12, 'h').toDate(), isModeChange: false});
+                            props.onChange({time: moment(time).add(12, 'h').toDate()});
                         }}
                         className={cx().part('apm-pm').addStates({selected: isAfternoon}).build()}>
                         PM

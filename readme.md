@@ -29,6 +29,10 @@ import TimePicker from 'melon-timepicker';
 ReactDOM.render(<TimePicker />, container);
 ```
 
+## HomePage
+
+[demo](http://react-melon.github.io/melon/#/components?name=TimePicker)
+
 ## Examples
 
 ```
