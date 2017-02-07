@@ -5,7 +5,7 @@
   "authors": [
     "cxtom2008@gmail.com"
   ],
-  "description": "react ui components",
+  "description": "react timepicker component",
   "main": "src",
   "moduleType": [
     "amd"
