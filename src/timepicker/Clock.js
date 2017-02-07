@@ -67,17 +67,6 @@ export default class TimePickerClock extends Component {
     }
 
     /**
-     * react 组件生命周期——组件销毁前调用
-     *
-     * @public
-     * @override
-     */
-    componentWillUnmount() {
-        clearTimeout(this.mouseChangeTimer);
-        this.mouseChangeTimer = null;
-    }
-
-    /**
      * 鼠标按下事件处理
      *
      * @protected

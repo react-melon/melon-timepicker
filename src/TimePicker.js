@@ -145,7 +145,6 @@ export default class TimePicker extends InputComponent {
      * 失去焦点时处理
      *
      * @protected
-     * @param  {Object} e 事件对象
      */
     onBlur() {
 
