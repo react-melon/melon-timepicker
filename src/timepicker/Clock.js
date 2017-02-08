@@ -9,6 +9,7 @@ import moment from 'moment';
 import {create} from 'melon-core/classname/cxBuilder';
 import {range} from 'melon-core/util/array';
 import {getPosition} from 'melon/common/util/dom';
+import * as Util from '../util';
 
 import ClockItem from './ClockItem';
 import ClockHand from './ClockHand';
@@ -60,7 +61,7 @@ export default class TimePickerClock extends Component {
             end
         } = this.props;
 
-        return !moment(time).isSame(nextProps.time)
+        return !Util.isSame(time, nextProps.time)
             || mode !== nextProps.mode
             || !moment(begin).isSame(nextProps.begin)
             || !moment(end).isSame(nextProps.end);
@@ -73,7 +74,6 @@ export default class TimePickerClock extends Component {
      * @param  {MouseEvent} e 事件对象
      */
     onMouseDown(e) {
-
         if (this.props.mode === 'minute') {
             this.refs.main.addEventListener('mousemove', this.onMouseChange);
             document.addEventListener('mouseup', this.onMouseUp);
@@ -163,10 +163,7 @@ export default class TimePickerClock extends Component {
 
         const newTime = moment(time)[mode](number).toDate();
 
-        if (moment(newTime).isSame(time)
-            || (begin && moment(newTime).isBefore(begin))
-            || (end && moment(newTime).isAfter(end))
-        ) {
+        if (Util.isSame(newTime, time) || !Util.isBetween(newTime, begin, end)) {
             return;
         }
 
@@ -201,7 +198,7 @@ export default class TimePickerClock extends Component {
             let selected = false;
             if (mode === 'hour') {
                 let hour = moment(time).hour();
-                hour = hour === 0 ? 12 : hour;
+                hour = hour === 0 ? 24 : hour;
                 selected = (hour > 12 ? (hour - 12) : hour) === number;
                 const itemHour = hour > 12 ? (number + 12) : number;
                 timeMoment = moment(time).hour(itemHour);
@@ -211,17 +208,15 @@ export default class TimePickerClock extends Component {
                 timeMoment = moment(time).minute(number);
             }
 
-            let disabled = false;
-            disabled = begin ? timeMoment.isBefore(begin) : false;
-            disabled = end ? timeMoment.isAfter(end) : false;
+            const itemTime = timeMoment.toDate();
 
             return (
                 <ClockItem
                     key={mode + number}
-                    time={timeMoment.toDate()}
+                    time={itemTime}
                     mode={mode}
                     selected={selected}
-                    disabled={disabled} />
+                    disabled={!Util.isBetween(itemTime, begin, end)} />
             );
         });
 

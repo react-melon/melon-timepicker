@@ -8,6 +8,7 @@ import moment from 'moment';
 
 import InputComponent from 'melon-core/InputComponent';
 import {create} from 'melon-core/classname/cxBuilder';
+import * as Util from './util';
 
 import Icon  from 'melon/Icon';
 import Confirm from 'melon/Confirm';
@@ -37,7 +38,7 @@ export default class TimePicker extends InputComponent {
 
         super(props, context);
 
-        const {defaultValue, value} = props;
+        const {defaultValue, value, begin, end} = props;
 
         this.onLabelClick = this.onLabelClick.bind(this);
         this.onConfirm = this.onConfirm.bind(this);
@@ -45,6 +46,10 @@ export default class TimePicker extends InputComponent {
         this.onTimeChange = this.onTimeChange.bind(this);
 
         const time = value === void 0 ? defaultValue : value;
+
+        const tiemObj = time && this.parseValue(time);
+        const beginObj = begin && this.parseValue(begin);
+        const endObj = end && this.parseValue(end);
 
         /**
          * 初始状态
@@ -56,10 +61,10 @@ export default class TimePicker extends InputComponent {
 
             ...this.state,
 
-            value: this.stringifyValue(time),
+            value: this.stringifyValue(time && Util.closest(tiemObj, beginObj, endObj)),
 
             // 缓存用户在 confirm 前的选中值
-            time: time ? this.parseValue(time) : void 0,
+            time: time ? this.parseValue(Util.closest(tiemObj, beginObj, endObj)) : void 0,
 
             // 是否打开选择窗
             open: false

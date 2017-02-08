@@ -12,7 +12,7 @@ import React from 'react';
 import {mount} from 'enzyme';
 
 import Confirm from 'melon/Confirm';
-import TimePicker from '../../src/TimePicker';
+import TimePicker from '../../src/index';
 
 import then from '../then';
 

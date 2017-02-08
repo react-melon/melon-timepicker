@@ -37,7 +37,6 @@ export default class TimePickerHeader extends Component {
         let isAfternoon = false;
 
         if (hour > 12 || hour === 0) {
-            hour = hour === 0 ? 12 : (hour - 12);
             isAfternoon = true;
         }
 
@@ -49,7 +48,7 @@ export default class TimePickerHeader extends Component {
                             props.onModeChange({mode: 'hour'});
                         }}
                         className={cx().part('time-hour').addStates({selected}).build()}>
-                        {moment(hour + '', 'h').format('hh')}
+                        {timeMoment.format('HH')}
                     </span>
                     <span>:</span>
                     <span

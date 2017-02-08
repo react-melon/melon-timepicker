@@ -7,6 +7,7 @@ import React, {Component, PropTypes} from 'react';
 import moment from 'moment';
 
 import {create} from 'melon-core/classname/cxBuilder';
+import * as Util from '../util';
 
 import Header from './Header';
 import Clock from './Clock';
@@ -98,13 +99,22 @@ export default class TimePickerPanel extends Component {
      */
     onTimeChange({time, mode}) {
 
+        const {
+            begin,
+            end
+        } = this.props;
+
+        time = Util.closest(time, begin, end);
+
         let nextState = {
             time,
             mode: mode || this.state.mode
         };
 
         this.setState(nextState, () => {
-            this.props.onChange({time});
+            this.props.onChange({
+                time
+            });
         });
     }
 

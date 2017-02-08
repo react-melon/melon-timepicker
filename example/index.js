@@ -7,7 +7,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Title from 'melon/Title';
-import TimePicker from '../src/TimePicker';
+import TimePicker from '../src/index';
 
 import './index.styl';
 
@@ -46,9 +46,9 @@ class View extends React.Component {
                     <div className="melon-column melon-column-6">
                         <Title level={5}>有限制 0:00 - 11:00</Title>
                         <TimePicker
-                            defaultValue="01:00"
-                            begin="00:00"
-                            end="11:00" />
+                            defaultValue="02:00"
+                            begin="05:00"
+                            end="14:00" />
                     </div>
                     <div className="melon-column melon-column-6">
                     </div>

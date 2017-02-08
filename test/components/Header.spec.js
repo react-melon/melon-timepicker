@@ -198,7 +198,7 @@ describe('Header', () => {
             'ui-time-picker-header-time-hour'
         );
 
-        expect(hour.innerText).toEqual('12');
+        expect(hour.innerText).toEqual('00');
 
     });
 
