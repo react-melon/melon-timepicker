@@ -59,7 +59,7 @@ export default class TimePickerPanel extends Component {
 
         const time = nextProps.time;
 
-        if (!moment(time).isSame(this.props.time)) {
+        if (!Util.isSame(time, this.props.time)) {
             this.setState({time});
         }
     }
@@ -74,7 +74,7 @@ export default class TimePickerPanel extends Component {
      * @return {boolean} 是否需要更新
      */
     shouldComponentUpdate(nextProps, nextState) {
-        return !moment(nextState.time).isSame(this.state.time)
+        return !Util.isSame(nextState.time, this.state.time)
             || nextState.mode !== this.state.mode;
     }
 

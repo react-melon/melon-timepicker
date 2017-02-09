@@ -1,6 +1,6 @@
 {
   "name": "melon-timepicker",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "react timepicker component",
   "main": "lib/index.js",
   "directories": {

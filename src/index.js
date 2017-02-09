@@ -81,8 +81,7 @@ export default class TimePicker extends InputComponent {
     componentWillUpdate(_, nextState) {
         const time = this.parseValue(nextState.value);
         if (this.state.value !== nextState.value && (
-            time === void 0
-            || nextState.time === void 0
+            time === void 0 || nextState.time === void 0
             || !moment(time).isSame(nextState.time, 'minute')
             || !moment(time).isSame(nextState.time, 'hour')
         )) {
