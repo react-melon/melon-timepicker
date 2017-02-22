@@ -86,7 +86,7 @@ export default class TimePicker extends InputComponent {
             || !moment(time).isSame(nextState.time, 'hour')
         )) {
             this.setState({
-                date: this.parseValue(nextState.value)
+                time: this.parseValue(nextState.value)
             });
         }
     }
