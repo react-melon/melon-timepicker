@@ -5,8 +5,9 @@
 
 import React, {Component} from 'react';
 import moment from 'moment';
-import TestUtils, {createRenderer} from 'react-addons-test-utils';
+import TestUtils from 'react-dom/test-utils';
 import _ from 'lodash';
+import {shallow} from 'enzyme';
 
 import Header from '../../src/timepicker/Header';
 import then from '../then';
@@ -49,53 +50,35 @@ class TestComponent extends Component {
 
 describe('Header', () => {
 
-    let renderer;
-
-    beforeEach(() => {
-        renderer = createRenderer();
-    });
-
     it('dom', () => {
 
-        renderer.render(
+        let wrapper = shallow(
             <Header
                 time={moment('05:02:00', 'HH:mm:ss').toDate()}
                 mode="hour"
                 onModeChange={_.noop}
                 onChange={_.noop} />
         );
-        let actualElement = renderer.getRenderOutput();
 
-        let expectedElement = (
-            <div className="ui-time-picker-header">
-                <div className="ui-time-picker-header-time">
-                    <span
-                        onClick={null}
-                        className="ui-time-picker-header-time-hour state-selected">
-                        05
-                    </span>
-                    <span>:</span>
-                    <span
-                        onClick={_.noop}
-                        className="ui-time-picker-header-time-minute">
-                        02
-                    </span>
-                </div>
-                <div className="ui-time-picker-header-apm">
-                    <span
-                        onClick={null}
-                        className="ui-time-picker-header-apm-am state-selected">
-                        AM
-                    </span>
-                    <span
-                        onClick={_.noop}
-                        className="ui-time-picker-header-apm-pm">
-                        PM
-                    </span>
-                </div>
-            </div>
-        );
-        expect(actualElement).toEqualJSX(expectedElement);
+        expect(wrapper.hasClass('ui-time-picker-header')).toBe(true);
+
+        let time = wrapper.children().at(0);
+        expect(time.hasClass('ui-time-picker-header-time')).toBe(true);
+        let hour = time.children().at(0);
+        let minute = time.children().at(2);
+        expect(hour.hasClass('ui-time-picker-header-time-hour')).toBe(true);
+        expect(hour.text()).toBe('05');
+        expect(minute.hasClass('ui-time-picker-header-time-minute')).toBe(true);
+        expect(minute.text()).toBe('02');
+
+        let apm = wrapper.children().at(1);
+        expect(apm.hasClass('ui-time-picker-header-apm')).toBe(true);
+        let am = apm.children().at(0);
+        let pm = apm.children().at(1);
+        expect(am.hasClass('ui-time-picker-header-apm-am')).toBe(true);
+        expect(am.text()).toBe('AM');
+        expect(pm.hasClass('ui-time-picker-header-apm-pm')).toBe(true);
+        expect(pm.text()).toBe('PM');
     });
 
     it('change mode', done => {

@@ -54,29 +54,25 @@ describe('TimePicker', function () {
         });
 
         component.find('.ui-time-picker-label').at(0).simulate('click');
-        let buttons = [];
 
         then(() => {
             expect(component.state('open')).toBeTruthy();
-            expect(component.hasClass('state-focus')).toBeTruthy();
             expect(focusSpy).toHaveBeenCalled();
-            buttons = document.querySelectorAll('.ui-button');
+            let buttons = document.querySelectorAll('.ui-button');
             expect(buttons.length).toBe(2);
-            buttons[0].click();
+            document.querySelector('.ui-button.variant-confirm').click();
         }).then(() => {
             expect(blurSpy).toHaveBeenCalled();
             expect(component.state('open')).toBeFalsy();
-            expect(component.hasClass('state-focus')).toBeFalsy();
             blurSpy.calls.reset();
             component.find('.ui-time-picker-label').at(0).simulate('click');
         }).then(() => {
-            buttons = document.querySelectorAll('.ui-button');
+            let buttons = document.querySelectorAll('.ui-button');
             expect(buttons.length).toBe(2);
-            buttons[1].click();
+            document.querySelector('.ui-button.variant-cancel').click();
         }).then(() => {
             expect(blurSpy).toHaveBeenCalled();
             expect(component.state('open')).toBeFalsy();
-            expect(component.hasClass('state-focus')).toBeFalsy();
             done();
         });
     });
@@ -89,15 +85,16 @@ describe('TimePicker', function () {
             onFocus: focusSpy
         });
 
-        expect(component.hasClass('state-disabled')).toBeTruthy();
+        expect(component.children().at(0).hasClass('state-disabled')).toBeTruthy();
 
         component.find('.ui-time-picker-label').at(0).simulate('click');
 
         then(() => {
             expect(component.state('open')).toBeFalsy();
-            expect(component.hasClass('state-focus')).toBeFalsy();
             expect(focusSpy).not.toHaveBeenCalled();
-        }).then(done);
+            done();
+        });
+
     });
 
     it('readOnly', done => {
@@ -108,7 +105,7 @@ describe('TimePicker', function () {
             onFocus: focusSpy
         });
 
-        expect(component.hasClass('state-read-only')).toBeTruthy();
+        expect(component.children().at(0).hasClass('state-read-only')).toBeTruthy();
 
         component.find('.ui-time-picker-label').at(0).simulate('click');
 
@@ -120,6 +117,7 @@ describe('TimePicker', function () {
     });
 
     it('change mode', done => {
+
         component.find('.ui-time-picker-label').at(0).simulate('click');
 
         then(() => {
@@ -147,8 +145,7 @@ describe('TimePicker', function () {
         then(() => {
             expect(component.state('open')).toBeTruthy();
             document.querySelector('.ui-time-picker-header-apm-pm').click();
-            buttons = document.querySelectorAll('.ui-button');
-            buttons[1].click();
+            document.querySelector('.ui-button.variant-confirm').click();
         }).then(() => {
             expect(component.state('value')).toEqual('23:00:00');
             done();
@@ -173,8 +170,7 @@ describe('TimePicker', function () {
         then(() => {
             expect(component.state('open')).toBeTruthy();
             document.querySelector('.ui-time-picker-header-apm-pm').click();
-            buttons = document.querySelectorAll('.ui-button');
-            buttons[1].click();
+            document.querySelector('.ui-button.variant-confirm').click();
         }).then(() => {
             expect(changeSpy).toHaveBeenCalled();
             expect(component.state('value')).toEqual('11:00:00');

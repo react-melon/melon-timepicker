@@ -5,58 +5,44 @@
 
 import React from 'react';
 import moment from 'moment';
-import {createRenderer} from 'react-addons-test-utils';
-
+import {shallow} from 'enzyme';
 import ClockHand from '../../src/timepicker/ClockHand';
 
 describe('ClockHand', () => {
 
-    let renderer;
-
-    beforeEach(() => {
-        renderer = createRenderer();
-    });
-
     it('mode hour', () => {
-        renderer.render(
+
+        let deg = (180 + 30 * 10) % 360;
+        let wrapper = shallow(
             <ClockHand
                 time={moment('10:20:00', 'HH:mm:ss').toDate()}
                 mode="hour" />
         );
-        let actualElement = renderer.getRenderOutput();
-        let deg = (180 + 30 * 10) % 360;
-        let expectedElement = (
-            <div className="ui-time-picker-clock-hand" style={{
-                transform: `translate(-50%, 0) rotate(${deg}deg)`,
-                msTransform: `translate(-50%, 0) rotate(${deg}deg)`,
-                WebkitTransform: `translate(-50%, 0) rotate(${deg}deg)`,
-                MozTransform: `translate(-50%, 0) rotate(${deg}deg)`
-            }}>
-                <div className="ui-time-picker-clock-hand-end" />
-            </div>
-        );
-        expect(actualElement).toEqualJSX(expectedElement);
+        expect(wrapper.hasClass('ui-time-picker-clock-hand')).toBe(true);
+        expect(wrapper.prop('style')).toEqual({
+            transform: `translate(-50%, 0) rotate(${deg}deg)`,
+            msTransform: `translate(-50%, 0) rotate(${deg}deg)`,
+            WebkitTransform: `translate(-50%, 0) rotate(${deg}deg)`,
+            MozTransform: `translate(-50%, 0) rotate(${deg}deg)`
+        });
+        expect(wrapper.children().at(0).hasClass('ui-time-picker-clock-hand-end')).toBe(true);
     });
 
     it('mode minute', () => {
-        renderer.render(
+        let deg = (180 + 6 * 21) % 360;
+        let wrapper = shallow(
             <ClockHand
                 time={moment('10:21:00', 'HH:mm:ss').toDate()}
                 mode="minute" />
         );
-        let actualElement = renderer.getRenderOutput();
-        let deg = (180 + 6 * 21) % 360;
-        let expectedElement = (
-            <div className="ui-time-picker-clock-hand variant-end" style={{
-                transform: `translate(-50%, 0) rotate(${deg}deg)`,
-                msTransform: `translate(-50%, 0) rotate(${deg}deg)`,
-                WebkitTransform: `translate(-50%, 0) rotate(${deg}deg)`,
-                MozTransform: `translate(-50%, 0) rotate(${deg}deg)`
-            }}>
-                <div className="ui-time-picker-clock-hand-end" />
-            </div>
-        );
-        expect(actualElement).toEqualJSX(expectedElement);
+        expect(wrapper.hasClass('variant-end')).toBe(true);
+        expect(wrapper.prop('style')).toEqual({
+            transform: `translate(-50%, 0) rotate(${deg}deg)`,
+            msTransform: `translate(-50%, 0) rotate(${deg}deg)`,
+            WebkitTransform: `translate(-50%, 0) rotate(${deg}deg)`,
+            MozTransform: `translate(-50%, 0) rotate(${deg}deg)`
+        });
+        expect(wrapper.children().at(0).hasClass('ui-time-picker-clock-hand-end')).toBe(true);
     });
 
 });

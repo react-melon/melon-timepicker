@@ -9,17 +9,17 @@ module.exports = {
 
     basePath: path.join(__dirname, '../../'),
 
-    frameworks: ['jasmine', 'jasmine-expect-jsx'],
+    frameworks: ['jasmine'],
 
     files: [
-        './test/**/*.spec.js'
+        './test/index.js'
     ],
 
     browsers: ['Chrome'],
 
     preprocessors: {
-        './test/**/*.spec.js': ['webpack', 'sourcemap'],
-        './src/*.js': ['coverage', 'sourcemap']
+        './test/**/*.js': ['webpack', 'sourcemap'],
+        './src/**/*.js': ['coverage', 'sourcemap']
     },
 
     webpack: {
@@ -54,11 +54,6 @@ module.exports = {
         // stylus loader 中引入 nib 库支持
         stylus: {
             use: [require('nib')()]
-        },
-        externals: {
-            'react/addons': true,
-            'react/lib/ExecutionEnvironment': true,
-            'react/lib/ReactContext': true
         }
     },
 

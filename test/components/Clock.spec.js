@@ -10,7 +10,7 @@ import '../../src/index.styl';
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import moment from 'moment';
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from 'react-dom/test-utils';
 
 import {mount} from 'enzyme';
 
@@ -61,45 +61,58 @@ describe('Clock', function () {
 
     it('dom', function () {
         expect(clockItems.length).toEqual(12);
-        const item = findDOMNode(clockItems.get(1));
-        expect(TestUtils.isDOMComponent(item)).toBeTruthy();
-
     });
 
     it('mouseDown', () => {
         const main = document.querySelector('.ui-time-picker-clock-main');
-        expect(TestUtils.isDOMComponent(main)).toBeTruthy();
         const mouseDownSpy = spyOn(main, 'addEventListener');
         clockItems.at(0).simulate('mousedown');
         expect(mouseDownSpy).toHaveBeenCalled();
     });
 
     it('change hour', function () {
-        let item = findDOMNode(clockItems.get(0));
+
+        let item = findDOMNode(clockItems.at(0).instance());
         component.instance().onMouseChange(nativeMouseData(item));
 
-        expect(changeSpy).toHaveBeenCalledWith({time: moment('01:00:00', 'HH:mm:ss').toDate()});
+        expect(changeSpy)
+            .toHaveBeenCalledWith({
+                time: moment('01:00:00', 'HH:mm:ss').toDate()
+            });
+
         component.instance().onMouseUp();
         changeSpy.calls.reset();
 
-        item = findDOMNode(clockItems.get(3));
+        item = findDOMNode(clockItems.at(3).instance());
         component.instance().onMouseChange(nativeMouseData(item));
 
-        expect(changeSpy).toHaveBeenCalledWith({time: moment('04:00:00', 'HH:mm:ss').toDate()});
+        expect(changeSpy)
+            .toHaveBeenCalledWith({
+                time: moment('04:00:00', 'HH:mm:ss').toDate()
+            });
+
         component.instance().onMouseUp();
         changeSpy.calls.reset();
 
-        item = findDOMNode(clockItems.get(7));
+        item = findDOMNode(clockItems.at(7).instance());
         component.instance().onMouseChange(nativeMouseData(item));
 
-        expect(changeSpy).toHaveBeenCalledWith({time: moment('08:00:00', 'HH:mm:ss').toDate()});
+        expect(changeSpy)
+            .toHaveBeenCalledWith({
+                time: moment('08:00:00', 'HH:mm:ss').toDate()
+            });
+
         component.instance().onMouseUp();
         changeSpy.calls.reset();
 
-        item = findDOMNode(clockItems.get(10));
+        item = findDOMNode(clockItems.at(10).instance());
         component.instance().onMouseChange(nativeMouseData(item));
 
-        expect(changeSpy).toHaveBeenCalledWith({time: moment('11:00:00', 'HH:mm:ss').toDate()});
+        expect(changeSpy)
+            .toHaveBeenCalledWith({
+                time: moment('11:00:00', 'HH:mm:ss').toDate()
+            });
+
         component.instance().onMouseUp();
 
     });
@@ -108,20 +121,23 @@ describe('Clock', function () {
         component.setProps({time: moment('13:00:00', 'HH:mm:ss').toDate()});
 
         expect(component.prop('time').getHours()).toBe(13);
-        let item = findDOMNode(clockItems.get(3));
+        let item = findDOMNode(clockItems.at(3).instance());
         component.instance().onMouseChange(nativeMouseData(item));
+
         expect(changeSpy).toHaveBeenCalledWith({time: moment('16:00:00', 'HH:mm:ss').toDate()});
         component.instance().onMouseUp();
         changeSpy.calls.reset();
 
-        item = findDOMNode(clockItems.get(11));
+        item = findDOMNode(clockItems.at(11).instance());
         component.instance().onMouseChange(nativeMouseData(item));
+
         expect(changeSpy).toHaveBeenCalledWith({time: moment('00:00:00', 'HH:mm:ss').toDate()});
         component.instance().onMouseUp();
         changeSpy.calls.reset();
 
-        item = findDOMNode(clockItems.get(0));
+        item = findDOMNode(clockItems.at(0).instance());
         component.instance().onMouseChange(nativeMouseData(item));
+
         expect(changeSpy.calls.count()).toBe(0);
         component.instance().onMouseUp();
     });
@@ -132,7 +148,7 @@ describe('Clock', function () {
             mode: 'minute'
         });
 
-        let item = findDOMNode(component.find(ClockItem).get(1));
+        let item = findDOMNode(component.find(ClockItem).at(1).instance());
         component.find(ClockItem).at(1).simulate('mousedown');
         component.instance().onMouseUp(nativeMouseData(item));
         expect(changeSpy).toHaveBeenCalledWith({time: moment('05:05:00', 'HH:mm:ss').toDate()});
@@ -141,7 +157,7 @@ describe('Clock', function () {
         component.instance().onMouseUp(nativeMouseData(item));
         expect(changeSpy).not.toHaveBeenCalledWith();
 
-        item = findDOMNode(component.find(ClockItem).get(0));
+        item = findDOMNode(component.find(ClockItem).at(0).instance());
         component.instance().onMouseUp(nativeMouseData(item));
         expect(changeSpy).toHaveBeenCalledWith({
             time: moment('05:00:00', 'HH:mm:ss').toDate()
@@ -149,7 +165,7 @@ describe('Clock', function () {
         changeSpy.calls.reset();
 
         // 点在了中心点
-        item = component.find('.ui-time-picker-clock-main').get(0);
+        item = component.find('.ui-time-picker-clock-main').at(0).instance();
         component.instance().onMouseUp(nativeMouseData(item));
         expect(changeSpy).not.toHaveBeenCalledWith();
     });
