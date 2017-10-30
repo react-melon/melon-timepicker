@@ -16,3 +16,4 @@ bower.json
 .fecsrc
 doc
 esdoc.json
+package-lock.json
